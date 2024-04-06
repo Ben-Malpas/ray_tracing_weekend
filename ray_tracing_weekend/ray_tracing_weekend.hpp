@@ -1,4 +1,4 @@
-﻿// ray_tracing_weekend.h : Include file for standard system include files,
+﻿// ray_tracing_weekend.hpp : Include file for standard system include files,
 // or project specific include files.
 
 #pragma once

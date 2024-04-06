@@ -3,7 +3,7 @@
 #
 
 # Add source to this project's executable.
-add_executable (ray_tracing_weekend "ray_tracing_weekend.cpp" "ray_tracing_weekend.h")
+add_executable (ray_tracing_weekend "ray_tracing_weekend.cpp" "ray_tracing_weekend.hpp")
 
 if (CMAKE_VERSION VERSION_GREATER 3.12)
   set_property(TARGET ray_tracing_weekend PROPERTY CXX_STANDARD 20)
