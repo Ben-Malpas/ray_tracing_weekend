@@ -12,6 +12,9 @@
 Colour ray_colour(const Ray& r)
 {
 	return Colour(0, 0, 0); // returns black for now
+	Vec3 unit_direction = unit_vector(r.direction());
+	auto a = 0.5 * (unit_direction.y() + 1.0);
+	return (1 - a) * Colour(1, 1, 1) + a * Colour(0.5, 0.7, 1);
 }
 
 int main()
