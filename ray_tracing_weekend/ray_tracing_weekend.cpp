@@ -9,21 +9,31 @@
 
 #include <iostream>
 
-bool hit_sphere(const Point3& center, double radius, const Ray& r)
+double hit_sphere(const Point3& center, double radius, const Ray& r)
 {
 	Vec3 oc = center - r.origin();
 	auto a = dot(r.direction(), r.direction());
 	auto b = -2.0 * dot(r.direction(), oc);
 	auto c = dot(oc, oc) - radius * radius;
 	auto discriminant = b * b - 4 * a * c;
-	return (discriminant >= 0);
+
+	if (discriminant < 0)
+	{
+		return -1.0; // Magic value, maybe replace this with an optional or something
+	}
+	else
+	{
+		return (-b - sqrt(discriminant)) / (2.0 * a);
+	}
 }
 
 Colour ray_colour(const Ray& r)
 {
-	if (hit_sphere(Point3(0, 0, -1), 0.5, r))
+	auto t = hit_sphere(Point3(0, 0, -1), 0.5, r);
+	if (t > 0.0)
 	{
-		return Colour(1, 0, 0);
+		Vec3 N = unit_vector(r.at(t) - Vec3(0, 0, -1));
+		return 0.5 * Colour(N.x() + 1, N.y() + 1, N.z() + 1);
 	}
 
 	Vec3 unit_direction = unit_vector(r.direction());
