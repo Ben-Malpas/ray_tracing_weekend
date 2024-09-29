@@ -3,6 +3,7 @@ set(HEADER_FILES
 	colour.hpp
 	hittable.hpp
 	hittable_list.hpp
+	interval.hpp
 	ray.hpp
 	ray_tracing_weekend.hpp
 	sphere.hpp
