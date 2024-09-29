@@ -4,36 +4,19 @@
 #include "ray_tracing_weekend.hpp"
 
 #include "colour.hpp"
+#include "hittable.hpp"
+#include "hittable_list.hpp"
 #include "ray.hpp"
+#include "sphere.hpp"
 #include "vec3.hpp"
 
 #include <iostream>
 
-double hit_sphere(const Point3& center, double radius, const Ray& r)
+Colour ray_colour(const Ray& r, const Hittable & world)
 {
-	Vec3 oc = center - r.origin();
-	auto a = r.direction().length_squared();
-	auto h = dot(r.direction(), oc);
-	auto c = oc.length_squared() - radius * radius;
-	auto discriminant = h * h - a * c;
-
-	if (discriminant < 0)
-	{
-		return -1.0; // Magic value, maybe replace this with an optional or something
-	}
-	else
-	{
-		return (h - sqrt(discriminant)) / a;
-	}
-}
-
-Colour ray_colour(const Ray& r)
-{
-	auto t = hit_sphere(Point3(0, 0, -1), 0.5, r);
-	if (t > 0.0)
-	{
-		Vec3 N = unit_vector(r.at(t) - Vec3(0, 0, -1));
-		return 0.5 * Colour(N.x() + 1, N.y() + 1, N.z() + 1);
+	HitRecord rec;
+	if (world.hit(r, 0, RtWeekend::infinity, rec)) {
+		return 0.5 * (rec.normal + Colour(1, 1, 1));
 	}
 
 	Vec3 unit_direction = unit_vector(r.direction());
@@ -51,6 +34,14 @@ int main()
 	// Calculate image height, and insure it's at least one
 	int image_height = static_cast<int>(image_width / aspect_ratio);
 	image_height = (image_height < 1) ? 1 : image_height;
+
+	// World
+
+	HittableList world;
+
+	world.add(std::make_shared<Sphere>(Point3(0, 0, -1), 0.5));
+	world.add(std::make_shared<Sphere>(Point3(0, -100.5, -1), 100));
+
 
 	// Camera
 
@@ -86,7 +77,7 @@ int main()
 			auto ray_direction = pixel_center - camera_center;
 			Ray r(camera_center, ray_direction);
 
-			Colour pixel_colour = ray_colour(r);
+			Colour pixel_colour = ray_colour(r, world);
 			write_colour(std::cout, pixel_colour);
 		}
 	}
