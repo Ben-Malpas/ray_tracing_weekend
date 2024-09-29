@@ -1,5 +1,6 @@
 ﻿# Add source files
 set(HEADER_FILES
+	camera.hpp
 	colour.hpp
 	hittable.hpp
 	hittable_list.hpp
