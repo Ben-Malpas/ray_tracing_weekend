@@ -1,12 +1,17 @@
-﻿# CMakeList.txt : CMake project for ray_tracing_weekend, include source and define
-# project specific logic here.
-#
+﻿# Add source files
+set(HEADER_FILES
+	colour.hpp
+	hittable.hpp
+	hittable_list.hpp
+	ray.hpp
+	ray_tracing_weekend.hpp
+	sphere.hpp
+	vec3.hpp
+)
+
+set(SOURCE_FILES
+	ray_tracing_weekend.cpp
+)
 
 # Add source to this project's executable.
-add_executable (ray_tracing_weekend "ray_tracing_weekend.cpp" "ray_tracing_weekend.hpp")
-
-if (CMAKE_VERSION VERSION_GREATER 3.12)
-  set_property(TARGET ray_tracing_weekend PROPERTY CXX_STANDARD 20)
-endif()
-
-# TODO: Add tests and install targets if needed.
+add_executable(${PROJECT_NAME} ${HEADER_FILES} ${SOURCE_FILES})
